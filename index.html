@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #canvas{
+            border: 1px solid black;
+            display: block;
+            margin: 0 auto;
+            background: #fffacc;
+        }
+    </style>
+    <link rel="stylesheet" href="style.css">
+    <title>Physics Engine</title>
+</head>
+<body>
+    <div class="flex-container">
+        <div class="flex-item">
+            <div class="flex-container">
+                <div class="flex-item">
+                    <button class="button" onclick=clickMove()>Move</button>
+                </div>
+                <div class="flex-item">
+                    <button class="button" onclick=clickDelete()>Delete</button>
+                </div>
+                <div class="flex-item">
+                    <button class="button" onclick=clickBall()>Ball</button>
+                </div>
+                <div class="flex-item">
+                    <button class="button" onclick=clickCapsule()>Capsule</button>
+                </div>
+                <div class="flex-item">
+                    <button class="button" onclick=clickBox()>Box</button>
+                </div>
+                <div class="flex-item">
+                    <button class="button" onclick=clickTriangle()>Triangle</button>
+                </div>
+                <div class="flex-item">
+                    <button class="button" onclick=clickStar()>Star</button>
+                </div>
+                <div class="flex-item">
+                    <button class="button" onclick=clickWall()>Wall</button>
+                </div>
+                <div class="flex-item">
+                    <button class="button" onclick=clickGravity()>Toggle gravity</button>
+                </div>
+                <div class="flex-item">
+                    <button class="button" onclick=pause()>Start / Pause</button>
+                </div>
+            </div>
+        </div>
+        <div class="flex-item">
+            <canvas id="canvas" tabindex=0 width="640" height="480"></canvas>
+        </div>
+        <div class="flex-item">
+            <div class="flex-container">
+                <div class="flex-item"  id="radiusContainer" hidden>
+                    <div class="slidecontainer">
+                        <input type="range" min="25" max="150" value="50" class="range" id="radiusRange">
+                        <p>Radius: <span id="radius"></span></p>
+                    </div>
+                </div>
+                <div class="flex-item"  id="widthContainer" hidden>
+                    <div class="slidecontainer">
+                        <input type="range" min="50" max="200" value="100" class="range" id="widthRange">
+                        <p>Width: <span id="width"></span></p>
+                    </div>
+                </div>
+                <div class="flex-item" id="heightContainer" hidden>
+                    <div class="slidecontainer">
+                        <input type="range" min="50" max="200" value="100" class="range" id="heightRange">
+                        <p>Height: <span id="height"></span></p>
+                    </div>
+                </div>
+                <div class="flex-item" id="massContainer" hidden>
+                    <div class="slidecontainer">
+                        <input type="range" min="5" max="30" value="15" class="range" id="massRange">
+                        <p>Density: <span id="mass"></span></p>
+                    </div>
+                </div>
+                <div class="flex-item" id="colorContainer" hidden>
+                    <input type="color" id="color" name="color" value="#e66465" class="color">
+                    <label for="color" class="color">Color</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="physics.js"></script>
+    <script src="userInput.js"></script>
+    <script src="setup.js"></script>
+</body>
+</html>
