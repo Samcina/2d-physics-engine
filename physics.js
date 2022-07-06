@@ -103,18 +103,6 @@ class Matrix{
     }
 }
 
-// utility functions
-// Returns with a number rounded to <precision> decimals
-function round(number, precision){
-    let factor = 10**precision;
-    return Math.round(number * factor) / factor;
-}
-
-// Returns with a random integer
-function randInt(min, max){
-    return Math.floor(Math.random() * (max-min+1)) + min;
-}
-
 // primitive shapes
 
 // primitive Line shape
