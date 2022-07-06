@@ -687,58 +687,6 @@ class CollData{
     }
 }
 
-
-// Takes a vector and a line
-// Returns with the vector of the lines closest point to the given vector
-function closestPointOnLS(p, w1){
-    let ballToWallStart = w1.start.subtr(p);
-    if(Vector.dot(w1.direction, ballToWallStart) > 0){
-        return w1.start;
-    }
-
-    let wallEndToBall = p.subtr(w1.end);
-    if(Vector.dot(w1.direction, wallEndToBall) > 0){
-        return w1.end;
-    }
-
-    let closestDistance = Vector.dot(w1.direction, ballToWallStart);
-    let closestVector = w1.direction.mult(closestDistance);
-    return w1.start.subtr(closestVector);
-}
-
-
-// Takes 2 endpoints of 2 line segments (aka 4 vectors)
-// Returns with the intersection vector or false if there is no intersection
-function lineSegmentIntersection(p1,p2,q1,q2){
-    let resultVector = new Vector(0,0)
-    let r = p2.subtr(p1)
-    let s = q2.subtr(q1)
-    let qp = q1.subtr(p1)
-    let denom = Vector.cross(r,s)
-    
-    let u = Vector.cross(qp,r) / denom;
-    let t = Vector.cross(qp,s) / denom;
-
-    if(denom === 0 && Vector.cross(qp,r) !== 0){
-        return false
-    }
-    if(denom === 0 && Vector.cross(qp,r) === 0){
-        if(((q1.x-p1.x < 0)&&(q1.x-p2.x < 0)&&(q2.x-p1.x < 0)&&(q2.x-p2.x < 0)) &&
-            ((q1.y-p1.y < 0)&&(q1.y-p2.y < 0)&&(q2.y-p1.y < 0)&&(q2.y-p2.y < 0))){
-            return false
-        } else {
-            resultVector = p2
-            return resultVector
-        }
-    }
-    if((t >= 0) && (t <= 1) && (u >= 0) && (u <= 1)){
-        resultVector = p1.add(r.mult(t))
-        return resultVector
-    } else {
-        return false
-    }     
-}
-
 //Separating axis theorem on two objects
 //Returns with the details of the Minimum Translation Vector (or false if no collision)
 function sat(o1, o2){
@@ -937,9 +885,7 @@ function userInteraction(){
     })
 }
 
-function gameLogic(){}
-
-function physicsLoop(timestamp) {
+function physicsLoop() {
 
     let substeps = 8;
 
