@@ -255,7 +255,6 @@ class Body {
         this.friction = 0.01;
         this.angFriction = 0.01;
         this.maxSpeed = 0;
-        this.layer = 0;
         this.color = "";
 
         this.velocity = new Vector(0, 0);
@@ -720,22 +719,18 @@ function lineSegmentIntersection(p1,p2,q1,q2){
     let u = Vector.cross(qp,r) / denom;
     let t = Vector.cross(qp,s) / denom;
 
-    // Case 1: two line segments are parallel and non-intersecting
     if(denom === 0 && Vector.cross(qp,r) !== 0){
         return false
     }
-    // Case 2: two line segments are collinear
     if(denom === 0 && Vector.cross(qp,r) === 0){
-        // True: overlapping, false: disjoint
         if(((q1.x-p1.x < 0)&&(q1.x-p2.x < 0)&&(q2.x-p1.x < 0)&&(q2.x-p2.x < 0)) &&
             ((q1.y-p1.y < 0)&&(q1.y-p2.y < 0)&&(q2.y-p1.y < 0)&&(q2.y-p2.y < 0))){
             return false
         } else {
-            resultVector = p2   // fix...
+            resultVector = p2
             return resultVector
         }
     }
-    // Case 3: If 0<=t<=1 and 0<=u<=1, they have an intersection, otherwise nope
     if((t >= 0) && (t <= 1) && (u >= 0) && (u <= 1)){
         resultVector = p1.add(r.mult(t))
         return resultVector
@@ -907,17 +902,6 @@ function setBallVerticesAlongAxis(obj, axis){
     }
 }
 
-//Collision is handled based on the body layer
-//Layer -1: collision handling with layer 0 bodies ONLY
-//Layer -2: no collision handling with any other body
-function collisionHandlingCondition(body1, body2){
-    return (
-        (body1.layer === body2.layer && !(body1.layer === -1 || body1.layer === -2)) ||
-        (body1.layer === 0 && body2.layer !== -2) || 
-        (body2.layer === 0 && body1.layer !== -2) 
-    )
-}
-
 //Prevents objects to float away from the canvas
 function putWallsAround(x1, y1, x2, y2){
     let edge1 = new Wall(x1, y1, x2, y1);
@@ -968,13 +952,11 @@ function physicsLoop(timestamp) {
         COLLISIONS.length = 0;
         
         BODIES.forEach((b, index) => {
-            for(let bodyPair = index+1; bodyPair < BODIES.length; bodyPair++){
-               if(collisionHandlingCondition(BODIES[index], BODIES[bodyPair])){               
+            for(let bodyPair = index+1; bodyPair < BODIES.length; bodyPair++){               
                     let bestSat = collide(BODIES[index], BODIES[bodyPair]);
                     if(bestSat){
                         COLLISIONS.push(new CollData(BODIES[index], BODIES[bodyPair], bestSat.axis, bestSat.pen, bestSat.vertex));
                     }           
-                }
             }
         });
     
@@ -1004,6 +986,5 @@ function mainLoop(){
     userInteraction();
     physicsLoop();
     renderLoop();
-    //requestAnimationFrame(mainLoop);
 }
 
